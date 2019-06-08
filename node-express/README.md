@@ -21,6 +21,6 @@ To run
 To test routes are working, used [Postman](https://www.getpostman.com/)
 
 Useful links:
-[3 tier architecture] (http://www.tonymarston.net/php-mysql/3-tier-architecture.html#rules-of-3-tier)
-[managing a git mess!] (http://justinhileman.info/article/git-pretty/git-pretty.png)
-[just intersting] (http://www.amp-what.com/)
+- [3 tier architecture](http://www.tonymarston.net/php-mysql/3-tier-architecture.html#rules-of-3-tier)
+- [managing a git mess!](http://justinhileman.info/article/git-pretty/git-pretty.png)
+- [just intersting](http://www.amp-what.com/)
