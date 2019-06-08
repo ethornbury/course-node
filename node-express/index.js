@@ -1,11 +1,17 @@
+/*
+app from coursera
+*/
 const express = require('express')
 const http = require('http');
-//const fs = require('fs');
-//const path = require('path');
-const app = express(); //use express module
-
+const morgan = require('morgan');
 const hostname = 'localhost';
 const port = 3000;
+const app = express(); //use express module
+
+app.use(morgan('dev'));
+
+app.use(express.static(__dirname+'/public')); //server static files from public file
+
 app.use((req, res, next) => {
 	console.log(req.hearders);
 	res.statusCode = 200;
