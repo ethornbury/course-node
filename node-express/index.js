@@ -16,6 +16,7 @@ app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 app.use('/dishes', dishRouter); //request will be handled by dishrouter
+app.use('/dishes/:dishId', dishRouter); //request will be handled by dishrouter
 app.use(express.static(__dirname+'/public')); //server static files from public file
 
 app.use((req, res, next) => {

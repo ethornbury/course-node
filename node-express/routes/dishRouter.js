@@ -28,26 +28,24 @@ dishRouter.route('/')
 	res.end('deleting all dishes');
 });
 
-module.exports = dishRouter;
-/*
-app.get('/dishes/:dishId', (req, res, next)=> {
+//----- with params
+dishRouter.route('/:dishId')
+.get((req, res, next)=> {
 	res.end('Will send details of the dish: '+req.params.dishId); 
 	//dishId needs to match with get on line above
-});
-
-app.post('/dishes/:dishId', (req, res, next)=> {
+})
+.post((req, res, next)=> {
 	res.statusCode = 403;
-	res.end('POST operation not supported on dishes: ' +red.params.dishId);
-});
-
-app.put('/dishes/:dishID', (req, res, next)=> {
-	res.write('Updating the dish: '+req.params.dishID);
+	res.end('POST operation not supported on dishes: ' +req.params.dishId);
+})
+.put((req, res, next)=> {
+	res.write('Updating the dish: '+req.params.dishId);
 	res.end('\nWill update the dish: '+req.body.name+
 	' with details: ' +req.body.description);	
-});
-
-app.delete('/dishes/:dishId', (req, res, next)=> {
+})
+.delete((req, res, next)=> {
 	res.end('Deleting the dish: '+req.params.dishId);
 });
-*/
+
+module.exports = dishRouter;
 
