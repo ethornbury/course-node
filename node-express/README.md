@@ -1,4 +1,4 @@
-npm# node-exmple
+# node-exmple
 
 
 This was done on a local install of Node
@@ -14,6 +14,7 @@ To set up
 In package.json, in scripts section add "start": "node index"
 
 To run	
+	
 	$ npm start
 
 	
