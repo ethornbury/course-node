@@ -7,6 +7,8 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 
 const dishRouter = require('./routes/dishRouter');
+const promoRouter = require('./routes/promoRouter');
+const leaderRouter = require('./routes/leaderRouter');
 
 const hostname = 'localhost';
 const port = 3000;
@@ -17,6 +19,13 @@ app.use(bodyParser.json());
 
 app.use('/dishes', dishRouter); //request will be handled by dishrouter
 app.use('/dishes/:dishId', dishRouter); //request will be handled by dishrouter
+
+app.use('/promos', promoRouter); //request will be handled by router
+app.use('/promos/:promoId', promoRouter); //request will be handled by router
+
+app.use('/leaders', leaderRouter); //request will be handled by router
+app.use('/leaders/:leaderId', leaderRouter); //request will be handled by router
+
 app.use(express.static(__dirname+'/public')); //server static files from public file
 
 app.use((req, res, next) => {
