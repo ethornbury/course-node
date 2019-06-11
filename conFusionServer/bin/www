@@ -2,6 +2,7 @@
 
 /**
  * Module dependencies.
+ server information set up here
  */
 
 var app = require('../app');
