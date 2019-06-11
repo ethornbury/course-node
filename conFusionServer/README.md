@@ -50,4 +50,6 @@ $ id.getTimestamp();		//returns ISO date from _id
 $ exit 	//to exit the REPL
 ```
 
+Gitignore file: https://stackoverflow.com/questions/10744305/how-to-create-gitignore-file
+
 
