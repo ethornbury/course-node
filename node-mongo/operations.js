@@ -3,6 +3,7 @@
 //file based and use in application
 
 const assert = require('assert');
+/* original 
 exports.insertDocument = (db, document, collection, callback) => {
 	//insert 
 	//db, doc to insert, to collection, callback
@@ -41,4 +42,30 @@ exports.updateDocument = (db, document, update, collection, callback) => {
 		console.log("updated ", update);
 		callback(result);
 	});
+};
+*/
+
+exports.insertDocument = (db, document, collection, callback) => {
+	//insert 
+	//db, doc to insert, to collection, callback
+	const coll = db.collection(collection);
+	return coll.insert(document);
+	
+};
+
+exports.findDocuments = (db, collection, callback) => {
+	const coll = db.collection(collection);
+	return coll.find({}).toArray();
+};
+
+exports.removeDocument = (db, document, collection, callback) => {
+	//delete function
+	const coll = db.collection(collection);
+	return coll.deleteOne(document);
+};
+
+exports.updateDocument = (db, document, update, collection, callback) => {
+	//update doc
+	const coll = db.collection(collection);
+	return coll.updateOne(document, {$set: update}, null);
 };

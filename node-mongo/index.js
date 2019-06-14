@@ -5,11 +5,11 @@ const dboper = require('./operations');
 const url = 'mongodb://localhost:27017/';
 const dbname = 'conFusion';
 
-MongoClient.connect(url, (err, client) => {
-	assert.equal(err, null); //use assert to check not null
+MongoClient.connect(url).then((client) => {
+	// assert.equal(err, null); //use assert to check not null
 	console.log('connected to server');
 	const db = client.db(dbname);
-	/*
+	/* old code part 1
 	const collection = db.collection('dishes');
 	collection.insertOne({"name": "pizza2", "description": "test2"}, (err, result) =>{
 		assert.equal(err, null);
@@ -27,22 +27,30 @@ MongoClient.connect(url, (err, client) => {
 		});
 	});
 	*/
-	dboper.insertDocument(db, {name: "Vadonut", description: "test"}, 'dishes', (result) => {		
+	
+	dboper.insertDocument(db, {name: "Vadonut", description: "test"}, 'dishes')
+	.then((result) => {		
 		console.log('insert doc:\n', result.ops);
-		dboper.findDocuments(db, 'dishes', (docs) => {
-			console.log('found docs:\n ', docs);
-			dboper.updateDocument(db, {name: "Vadonut"}, {description: 'Updated test'}, 'dishes', (result)=> {
-				console.log('updated docs:\n ', result.result);
-				dboper.findDocuments(db, 'dishes', (docs) => {
-					console.log('updated docs:\n ', result.result);
-					db.dropCollection('dishes', (result)=>{
-						console.log('dropped collection docs: ', result);
-						client.close();
-					});
-				});
-			});
-		});
-	});
-});
+		return dboper.findDocuments(db, 'dishes')
+	})
+	.then((docs) => {
+		console.log('found docs:\n ', docs);
+		return dboper.updateDocument(db, {name: "Vadonut"}, {description: 'Updated test'}, 'dishes');
+	})
+	.then((result)=> {
+		console.log('updated docs:\n ', result.result);
+		return dboper.findDocuments(db, 'dishes');
+	})
+	.then((docs) => {
+		console.log('updated docs:\n ', docs);
+		return db.dropCollection('dishes')
+	})
+	.then((result)=>{
+		console.log('dropped collection: ', result);
+		return client.close();
+	})
+	.catch((err)=> console.log(err));	
+})
+.catch((err)=> console.log(err));
 
 
