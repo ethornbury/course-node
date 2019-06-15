@@ -37,6 +37,8 @@ To turn mongodb on, in a terminal navigate to
 ```
 C:\Program Files\MongoDB\Server\4.0\bin>
 ```
-
+Info on managing documents [here](https://mongoosejs.com/docs/models.html)
+Info on managing subdocuments on moongoose [here](https://mongoosejs.com/docs/subdocs.html)
+Mongoose currency infor [here](https://www.npmjs.com/package/mongoose-currency)
 
 
