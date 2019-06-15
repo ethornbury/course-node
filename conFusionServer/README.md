@@ -1,11 +1,11 @@
-##node 
+## node 
 
 ```
 $ npm install express --save
 $ npm install -g express-generator
 ```
 Installs express-generator globally 
-See here: http://expressjs.com/en/starter/generator.html
+See [here](http://expressjs.com/en/starter/generator.html)
 ```
 $ express <myAppName>
 $ cd <myAppName>
@@ -51,6 +51,6 @@ $ id.getTimestamp();		//returns ISO date from _id
 $ exit 	//to exit the REPL
 ```
 
-Gitignore file: https://stackoverflow.com/questions/10744305/how-to-create-gitignore-file
+Gitignore file [info here](https://stackoverflow.com/questions/10744305/how-to-create-gitignore-file)
 
 
