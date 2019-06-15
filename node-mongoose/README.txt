@@ -3,6 +3,12 @@
 
 ```
 $ mkdir node-mongoose
+```
+
+To the Package.json add the following to "scripts":
+"start": "node index"
+
+```
 $ cd node-mongoose
 $ npm init
 $ npm install mongoose --save

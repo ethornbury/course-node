@@ -5,11 +5,11 @@ const url = 'mongodb://localhost:27017/conFusion';
 const connect = mongoose.connect(url);
 connect.then((db) => {
 	console.log("connected to mongodb server");
-	var newDish = Dishes({
+	Dishes.create({ 
+		//creates and adds to db
 		name: 'pizza', 
 		description: 'test'
-	});
-	newDish.save()
+	})
 	.then((dish) =>{
 		console.log(dish);
 		return Dishes.find({}).exec(); //exec will ensure it is executed
