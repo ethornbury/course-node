@@ -13,6 +13,7 @@ $ npm install
 $ npm start
 $ npm install mongodb --save 
 $ npm install assert --save
+$ npm install mongoose-currency --save //allows us to use type: Currency
 ```
 
 ---mongoDB
