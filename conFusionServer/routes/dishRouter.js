@@ -163,7 +163,7 @@ dishRouter.route('/:dishId/comments/:commentId')
 			err.status = 404;
 			return next(err); //goes to error handler in app.js
 		}else{
-			err = new Error('Comment '+req.params.comementId+' not found')
+			err = new Error('Comment '+req.params.commentId+' not found')
 			err.status = 404;
 			return next(err); //goes to error handler in app.js
 		}
@@ -179,12 +179,12 @@ dishRouter.route('/:dishId/comments/:commentId')
 .put((req, res, next)=> {
 	Dishes.findById(req.params.dishId)
 	.then((dish) =>{
-		if(dish != null && dish.comments.id(req.params.id) != null){
+		if(dish != null && dish.comments.id(req.params.commentId) != null){
 			if(req.body.rating){
-				dish.comments.id(req.params.id).rating = req.body.rating;
+				dish.comments.id(req.params.commentId).rating = req.body.rating;
 			}
 			if(req.body.comment){
-				dish.comments.id(req.params.id).comment = req.body.comment;
+				dish.comments.id(req.params.commentId).comment = req.body.comment;
 			}
 			dish.save()
 			.then((dish) => {
