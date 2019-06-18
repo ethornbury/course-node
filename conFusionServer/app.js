@@ -32,7 +32,35 @@ app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+//app accesses middleware in the order it is placed here, I think?
+function auth(req, res, next){
+	console.log(req.headers); //see the authorisation headers
+	var authHeader = req.headers.authorization;
+	if(!authHeader){
+		var err = new Error("You are not authenticated");
+		res.setHeader('WWW-Authenticate', 'Basic');
+		err.status = 401;
+		return next(err);		
+	}
+	var auth = new Buffer(authHeader.split(' ')[1], 'base64').toString().split(':');
+	//creates an array with 2 items, pword and username
+	var username = auth[0];
+	var password = auth[1];
+	console.log(username, "\n", password)
+	if(username === 'admin' && password ==='password'){ //hardcode for now
+		next(); //pass to next set of middleware
+	}else{
+		var err = new Error("You are not authenticated");
+		res.setHeader('WWW-Authenticate', 'Basic');
+		err.status = 401;
+		return next(err);	
+	}
+}
+app.use(auth); //before can access below resources, they must be authorised
+
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
