@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -31,12 +33,21 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser('12345-67890-09876-54321')); //added a secret key, set by me
+//app.use(cookieParser('12345-67890-09876-54321')); //added a secret key, set by me
+app.use(session({
+	name: 'session-id',
+	secret: '12345-67890-09876-54321',
+	saveUnitialized: false,
+	resave: false,
+	store: new FileStore()
+}));
 
 //app accesses middleware in the order it is placed here, I think?
 function auth(req, res, next){
 	console.log(req.signedCookies); //see the authorisation headers
-	if(!req.signedCookies.user){
+	console.log(req.session);
+	
+	if(!req.session.user){
 		var authHeader = req.headers.authorization;
 		if(!authHeader){
 			var err = new Error("You are not authenticated");
@@ -50,8 +61,8 @@ function auth(req, res, next){
 		var password = auth[1];
 		console.log(username, "\n", password)
 		if(username === 'admin' && password ==='password'){ //hardcode for now
-			res.cookie('user', 'admin', {signed: true})
-			
+			//res.cookie('user', 'admin', {signed: true})
+			req.session.user = 'admin';
 			next(); //pass to next set of middleware
 		}else{
 			var err = new Error("You are not authenticated");
@@ -61,7 +72,7 @@ function auth(req, res, next){
 		}
 	}else{
 		//user already exists
-		if(req.signedCookies.user ==='admin'){
+		if(req.session.user ==='admin'){
 			next(); //pass on
 		}else{
 			var err = new Error("You are not authenticated");
