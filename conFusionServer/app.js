@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var session = require('express-session');
-var FileStore = require('session-file-store')(session);
+var FileStore = require('session-file-store')(session); //will save json files in the session folder
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -42,19 +42,31 @@ app.use(session({
 	store: new FileStore()
 }));
 
+//these routes below can be accessed before authentication
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+
 //app accesses middleware in the order it is placed here, I think?
 function auth(req, res, next){
+	console.log('signed cookies: ')
 	console.log(req.signedCookies); //see the authorisation headers
+	console.log('req. session: ')
 	console.log(req.session);
 	
-	if(!req.session.user){
-		var authHeader = req.headers.authorization;
-		if(!authHeader){
+	if(!req.session.user){	
+		var err = new Error("You are not authenticated");
+		err.status = 403;
+		return next(err);		
+	}else{
+		if(req.session.user ==='authenticated'){
+			next(); //pass on
+		}else{
 			var err = new Error("You are not authenticated");
-			res.setHeader('WWW-Authenticate', 'Basic');
-			err.status = 401;
-			return next(err);		
+			err.status = 403;
+			return next(err);
 		}
+	}
+/*	
 		var auth = new Buffer.from(authHeader.split(' ')[1], 'base64').toString().split(':');
 		//creates an array with 2 items, pword and username
 		var username = auth[0];
@@ -80,17 +92,16 @@ function auth(req, res, next){
 			return next(err);
 		}
 	}
-		
+*/		
 	
 }
 app.use(auth); //before can access below resources, they must be authorised
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//the lines below need to go above the authentication step
+//app.use('/', indexRouter);
+//app.use('/users', usersRouter);
 app.use('/dishes', dishRouter);
 app.use('/promotions', promoRouter);
 app.use('/leaders', leaderRouter);
